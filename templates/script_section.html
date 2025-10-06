@@ -1,0 +1,43 @@
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const response = await fetch('/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username, password })
+                });
+
+                if (response.ok) {
+                    document.querySelector('.min-h-screen').style.display = 'none';
+                    document.getElementById('dashboard').classList.remove('hidden');
+                } else {
+                    alert('Invalid credentials');
+                }
+            } catch (error) {
+                alert('Error connecting to server');
+            }
+        });
+
+        // Handle feature navigation
+        document.querySelectorAll('.dropdown-content a').forEach(link => {
+            link.addEventListener('click', async (e) => {
+                e.preventDefault();
+                const url = e.target.getAttribute('href');
+                try {
+                    const response = await fetch(url);
+                    if (response.ok) {
+                        const html = await response.text();
+                        document.querySelector('.flex-1.p-8').innerHTML = html;
+                    }
+                } catch (error) {
+                    console.error('Navigation error:', error);
+                }
+            });
+        });
+    </script>

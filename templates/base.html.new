@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jenkins Pipelines Manager</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .dropdown-content {
+            display: none;
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+    </style>
+</head>
+<body class="bg-black">
+    <!-- Login Form -->
+    <div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-md w-full space-y-8">
+            <div class="text-center">
+                <img src="https://www.jenkins.io/images/logos/jenkins/jenkins.png" alt="Jenkins Logo" class="h-24 w-24 mx-auto border-2 border-[#004d3a] rounded-full p-2">
+                <h2 class="mt-6 text-center text-3xl font-extrabold text-[#9bd8b9]">Jenkins Pipelines Manager</h2>
+            </div>
+            <form id="loginForm" class="mt-8 space-y-6">
+                <div class="rounded-md shadow-sm -space-y-px">
+                    <div>
+                        <label for="username" class="sr-only">Username</label>
+                        <input id="username" name="username" type="text" required 
+                            class="appearance-none rounded-none relative block w-full px-3 py-2 border border-[#004d3a] placeholder-gray-500 text-white bg-black rounded-t-md focus:outline-none focus:ring-[#004d3a] focus:border-[#004d3a] focus:z-10 sm:text-sm" 
+                            placeholder="Username">
+                    </div>
+                    <div>
+                        <label for="password" class="sr-only">Password</label>
+                        <input id="password" name="password" type="password" required 
+                            class="appearance-none rounded-none relative block w-full px-3 py-2 border border-[#004d3a] placeholder-gray-500 text-white bg-black rounded-b-md focus:outline-none focus:ring-[#004d3a] focus:border-[#004d3a] focus:z-10 sm:text-sm" 
+                            placeholder="Password">
+                    </div>
+                </div>
+
+                <div>
+                    <button type="submit" 
+                        class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#004d3a] hover:bg-[#9bd8b9] hover:text-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#004d3a]">
+                        Sign in
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main Dashboard (Hidden until login) -->
+    <div id="dashboard" class="hidden">
+        <!-- Header with Border and Logo -->
+        <div class="w-full bg-[#004d3a] p-4 border-b-2 border-[#9bd8b9]">
+            <div class="flex items-center justify-center gap-4">
+                <img src="https://www.jenkins.io/images/logos/jenkins/jenkins.png" alt="Jenkins Logo" class="h-12 w-12">
+                <h1 class="text-3xl font-bold text-white">Jenkins Pipelines Manager</h1>
+            </div>
+        </div>
+        
+        <div class="flex h-[calc(100vh-4rem)]">
+            <!-- Sidebar with Border -->
+            <div class="w-64 bg-[#004d3a] p-4 border-r-2 border-[#9bd8b9]">
+                <h1 class="text-2xl font-bold text-white mb-8">Jenkins Manager</h1>
+                
+                <!-- Features Dropdown -->
+                <div class="dropdown">
+                    <button class="w-full text-left px-4 py-2 bg-[#9bd8b9] text-black rounded border-2 border-[#9bd8b9]">
+                        Features ▼
+                    </button>
+                    <div class="dropdown-content bg-black rounded mt-1 border-2 border-[#004d3a]">
+                        <a href="/pipelines" class="block px-4 py-2 text-white hover:bg-[#004d3a]">Pipelines</a>
+                        <a href="/system" class="block px-4 py-2 text-white hover:bg-[#004d3a]">System</a>
+                        <a href="/tools" class="block px-4 py-2 text-white hover:bg-[#004d3a]">Tools</a>
+                        <a href="/plugins" class="block px-4 py-2 text-white hover:bg-[#004d3a]">Plugins</a>
+                        <a href="/appearance" class="block px-4 py-2 text-white hover:bg-[#004d3a]">Appearance</a>
+                        <a href="/nodes" class="block px-4 py-2 text-white hover:bg-[#004d3a]">Nodes</a>
+                        <a href="/clouds" class="block px-4 py-2 text-white hover:bg-[#004d3a]">Clouds</a>
+                        <a href="/security" class="block px-4 py-2 text-white hover:bg-[#004d3a]">Security</a>
+                        <a href="/users" class="block px-4 py-2 text-white hover:bg-[#004d3a]">Users</a>
+                        <a href="/credentials" class="block px-4 py-2 text-white hover:bg-[#004d3a]">Credentials</a>
+                        <a href="/credential-providers" class="block px-4 py-2 text-white hover:bg-[#004d3a]">Credential Providers</a>
+                        <a href="/system-information" class="block px-4 py-2 text-white hover:bg-[#004d3a]">System Information</a>
+                        <a href="/system-log" class="block px-4 py-2 text-white hover:bg-[#004d3a]">System Log</a>
+                        <a href="/load-statistics" class="block px-4 py-2 text-white hover:bg-[#004d3a]">Load Statistics</a>
+                        <a href="/manage-old-data" class="block px-4 py-2 text-white hover:bg-[#004d3a]">Manage Old Data</a>
+                        <a href="/reload-config" class="block px-4 py-2 text-white hover:bg-[#004d3a]">Reload Configuration</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="flex-1 p-8">
+                <!-- Content with Border -->
+                <div class="border-2 border-[#004d3a] rounded-lg p-6 bg-black min-h-full">
+                    <div class="grid grid-cols-4 gap-4">
+                        <div class="bg-[#004d3a] p-4 rounded-lg">
+                            <h3 class="text-[#9bd8b9] text-lg font-semibold">Total Jobs</h3>
+                            <p class="text-white text-3xl font-bold" id="totalJobs">10</p>
+                        </div>
+                        <div class="bg-[#004d3a] p-4 rounded-lg">
+                            <h3 class="text-[#9bd8b9] text-lg font-semibold">Successful Jobs</h3>
+                            <p class="text-white text-3xl font-bold" id="successfulJobs">6</p>
+                        </div>
+                        <div class="bg-[#004d3a] p-4 rounded-lg">
+                            <h3 class="text-[#9bd8b9] text-lg font-semibold">Failed Jobs</h3>
+                            <p class="text-white text-3xl font-bold" id="failedJobs">4</p>
+                        </div>
+                        <div class="bg-[#004d3a] p-4 rounded-lg">
+                            <h3 class="text-[#9bd8b9] text-lg font-semibold">Queued Jobs</h3>
+                            <p class="text-white text-3xl font-bold" id="queuedJobs">0</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Function to update job stats
+        async function updateJobStats() {
+            try {
+                const response = await fetch('/api/job-stats');
+                const data = await response.json();
+                
+                document.getElementById('totalJobs').textContent = data.total_jobs;
+                document.getElementById('successfulJobs').textContent = data.successful_jobs;
+                document.getElementById('failedJobs').textContent = data.failed_jobs;
+                document.getElementById('queuedJobs').textContent = data.queued_jobs;
+            } catch (error) {
+                console.error('Error updating job stats:', error);
+            }
+        }
+
+        // Update job stats every 30 seconds
+        function startJobStatsUpdates() {
+            updateJobStats();  // Initial update
+            setInterval(updateJobStats, 30000);  // Update every 30 seconds
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const response = await fetch('/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username, password })
+                });
+
+                if (response.ok) {
+                    document.querySelector('.min-h-screen').style.display = 'none';
+                    document.getElementById('dashboard').classList.remove('hidden');
+                    startJobStatsUpdates();
+                } else {
+                    alert('Invalid credentials');
+                }
+            } catch (error) {
+                alert('Error connecting to server');
+            }
+        });
+
+        // Handle feature navigation
+        document.querySelectorAll('.dropdown-content a').forEach(link => {
+            link.addEventListener('click', async (e) => {
+                e.preventDefault();
+                const url = e.target.getAttribute('href');
+                try {
+                    const response = await fetch(url);
+                    if (response.ok) {
+                        const html = await response.text();
+                        document.querySelector('.flex-1.p-8').innerHTML = html;
+                    }
+                } catch (error) {
+                    console.error('Navigation error:', error);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

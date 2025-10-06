@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="bg-gray-900 p-6 rounded-lg border-2 border-primary">
+    <div class="border-b-2 border-primary pb-4 mb-6">
+        <h1 class="text-3xl font-bold text-secondary">System Configuration</h1>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- System Stats -->
+        <div class="bg-black p-4 rounded-lg border-2 border-primary">
+            <h2 class="text-xl text-secondary mb-4">System Statistics</h2>
+            <div class="space-y-2">
+                <div class="flex justify-between">
+                    <span class="text-gray-400">Jenkins Version:</span>
+                    <span class="text-white" id="jenkinsVersion">Loading...</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-400">Running Jobs:</span>
+                    <span class="text-white" id="runningJobs">Loading...</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-400">Memory Usage:</span>
+                    <span class="text-white" id="memoryUsage">Loading...</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- System Actions -->
+        <div class="bg-black p-4 rounded-lg border border-primary">
+            <h2 class="text-xl text-secondary mb-4">System Actions</h2>
+            <div class="space-y-3">
+                <button class="w-full bg-primary hover:bg-secondary hover:text-black text-white p-2 rounded transition-colors">
+                    Restart Jenkins
+                </button>
+                <button class="w-full bg-primary hover:bg-secondary hover:text-black text-white p-2 rounded transition-colors">
+                    Reload Configuration
+                </button>
+                <button class="w-full bg-primary hover:bg-secondary hover:text-black text-white p-2 rounded transition-colors">
+                    Clean Up Workspace
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Function to load system information
+    async function loadSystemInfo() {
+        try {
+            const response = await fetch('/api/system-info');
+            const data = await response.json();
+            
+            document.getElementById('jenkinsVersion').textContent = data.version;
+            document.getElementById('runningJobs').textContent = data.runningJobs;
+            document.getElementById('memoryUsage').textContent = data.memoryUsage;
+        } catch (error) {
+            console.error('Error loading system information:', error);
+        }
+    }
+
+    // Load system information when page loads
+    loadSystemInfo();
+</script>
+{% endblock %}

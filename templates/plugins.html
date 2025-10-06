@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="bg-gray-900 p-6 rounded-lg">
+    <h1 class="text-3xl font-bold text-secondary mb-6">Plugin Management</h1>
+    
+    <div class="grid grid-cols-1 gap-6">
+        <!-- Installed Plugins -->
+        <div class="bg-black p-4 rounded-lg border border-primary">
+            <h2 class="text-xl text-secondary mb-4">Installed Plugins</h2>
+            <div class="space-y-2" id="pluginsList">
+                Loading plugins...
+            </div>
+        </div>
+
+        <!-- Plugin Actions -->
+        <div class="bg-black p-4 rounded-lg border border-primary">
+            <h2 class="text-xl text-secondary mb-4">Plugin Actions</h2>
+            <div class="flex gap-3">
+                <button class="flex-1 bg-primary hover:bg-secondary hover:text-black text-white p-2 rounded transition-colors">
+                    Update All
+                </button>
+                <button class="flex-1 bg-primary hover:bg-secondary hover:text-black text-white p-2 rounded transition-colors">
+                    Install New Plugin
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Function to load plugins
+    async function loadPlugins() {
+        try {
+            const response = await fetch('/api/plugins');
+            const plugins = await response.json();
+            
+            const pluginsList = document.getElementById('pluginsList');
+            pluginsList.innerHTML = plugins.map(plugin => `
+                <div class="p-3 hover:bg-primary rounded transition-colors">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-secondary">${plugin.name}</h3>
+                        <span class="text-gray-400">v${plugin.version}</span>
+                    </div>
+                    <p class="text-gray-400 text-sm">${plugin.description}</p>
+                </div>
+            `).join('');
+        } catch (error) {
+            console.error('Error loading plugins:', error);
+        }
+    }
+
+    // Load plugins when page loads
+    loadPlugins();
+</script>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="bg-gray-900 p-6 rounded-lg">
+    <h1 class="text-3xl font-bold text-secondary mb-6">Tools and Utilities</h1>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Available Tools -->
+        <div class="bg-black p-4 rounded-lg border border-primary">
+            <h2 class="text-xl text-secondary mb-4">Available Tools</h2>
+            <div class="space-y-2">
+                <div class="p-3 hover:bg-primary rounded transition-colors cursor-pointer">
+                    <h3 class="text-secondary">Script Console</h3>
+                    <p class="text-gray-400 text-sm">Execute Groovy scripts for advanced system administration</p>
+                </div>
+                <div class="p-3 hover:bg-primary rounded transition-colors cursor-pointer">
+                    <h3 class="text-secondary">Prepare for Shutdown</h3>
+                    <p class="text-gray-400 text-sm">Gracefully shut down Jenkins after all running jobs are complete</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tool Actions -->
+        <div class="bg-black p-4 rounded-lg border border-primary">
+            <h2 class="text-xl text-secondary mb-4">Tool Actions</h2>
+            <div class="space-y-3">
+                <button class="w-full bg-primary hover:bg-secondary hover:text-black text-white p-2 rounded transition-colors">
+                    Run Script Console
+                </button>
+                <button class="w-full bg-primary hover:bg-secondary hover:text-black text-white p-2 rounded transition-colors">
+                    Prepare for Shutdown
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

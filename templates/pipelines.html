@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="space-y-6">
+    <!-- Pipeline List -->
+    <div class="bg-[#004d3a] p-6 rounded-lg border border-[#9bd8b9]">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-2xl font-bold text-[#9bd8b9]">Pipelines</h2>
+            <button class="px-4 py-2 bg-[#9bd8b9] text-black rounded hover:bg-[#7ab595] transition-colors">
+                New Pipeline
+            </button>
+        </div>
+        <div class="space-y-4" id="pipelinesList">
+            <!-- Pipelines will be loaded here dynamically -->
+        </div>
+    </div>
+</div>
+
+<script>
+async function loadPipelines() {
+    try {
+        const response = await fetch('/api/pipelines');
+        if (response.ok) {
+            const pipelines = await response.json();
+            const pipelinesList = document.getElementById('pipelinesList');
+            
+            if (pipelines.length === 0) {
+                pipelinesList.innerHTML = '<p class="text-gray-400">No pipelines found</p>';
+                return;
+            }
+
+            pipelinesList.innerHTML = pipelines.map(pipeline => `
+                <div class="bg-black p-4 rounded-lg border border-[#004d3a]">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h3 class="text-[#9bd8b9] font-semibold">${pipeline.name}</h3>
+                            <p class="text-gray-400 text-sm">Last run: ${pipeline.lastRun || 'Never'}</p>
+                        </div>
+                        <div class="flex gap-2">
+                            <button class="px-3 py-1 bg-[#004d3a] text-white rounded hover:bg-[#006d5a]">Run</button>
+                            <button class="px-3 py-1 bg-[#004d3a] text-white rounded hover:bg-[#006d5a]">Edit</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+    } catch (error) {
+        console.error('Error loading pipelines:', error);
+    }
+}
+
+// Load pipelines when the page loads
+loadPipelines();
+</script>
+{% endblock %}
